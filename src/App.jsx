@@ -2,13 +2,29 @@ import "./App.css";
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
 import { IoCopy } from "react-icons/io5";
 import { FaExternalLinkSquareAlt } from "react-icons/fa";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import apiRequest from "./Axios/axiosHandler";
+
 
 
 
 function App() {
 
-  const [url,setUrl]=useState('');
+  const [urlData,setUrlData]=useState('');
+  const [response,setResponse]=useState(null);
+
+
+  const handleUrl=async ()=>{
+          const url="http://localhost:8080/url-shortner/get-all"
+          const response = await apiRequest(url,"get",null);
+          setResponse(response.data)
+
+  }
+useEffect(() => {
+ 
+  console.log(response);
+
+}, [response])
 
 
 
@@ -28,9 +44,9 @@ function App() {
           placeholder="Enter url..."
           required
           className="dark w-[80%]"
-          onChange={(e)=>setUrl(e.target.value)}
+          onChange={(e)=>setUrlData(e.target.value)}
         />
-        <Button type="click" title="generate url">Generate</Button>
+        <Button type="click" onClick={handleUrl} title="generate url">Generate</Button>
       </div>
 
       <div className="F w-[70%] m-auto min-h-96 p-4 flex justify-center">
