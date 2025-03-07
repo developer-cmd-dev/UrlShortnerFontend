@@ -4,7 +4,7 @@ import axios from "axios";
  const  apiRequest = async(url,method,data)=>{
 
     try {
-        const response = await axios({url,method,data,withCredentials:false});
+        const response = await axios({url,method,data,withCredentials:false,headers:{"Content-Type":"application/json"}});
         return response;
     } catch (error) {
         if(error.code === "ERR_NETWORK" || error.message === 'Network Error'){
