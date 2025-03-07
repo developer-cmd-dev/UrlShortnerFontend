@@ -31,15 +31,10 @@ function App() {
   }
 
   const redirectUrl=async (hashValue)=>{
-    console.log(hashValue)
     const url=`${import.meta.env.VITE_BACKEND_URL}url-shortner/${hashValue}`
     const response = await apiRequest(url,"get",urlData);
-    console.log(response)
+    window.open(response.data,"_blank")
   }
-
-  useEffect(()=>{
-      console.log(response)
-  },[response])
 
 
 
