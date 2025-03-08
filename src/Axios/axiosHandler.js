@@ -3,11 +3,12 @@ import axios from "axios";
 
  const  apiRequest = async(url,method,data)=>{
 
+
     try {
-        const response = await axios({url,method,data,withCredentials:false,headers:{"Content-Type":"application/json"}});
+        const response = await axios({url,method,data,withCredentials:false,headers:{"Content-Type":"text/plain"}});
         return response;
     } catch (error) {
-        console.log(error)
+        
         if(error.code === "ERR_NETWORK" || error.message === 'Network Error'){
             
             throw new Error('Server is unreachable. Please try again later.')

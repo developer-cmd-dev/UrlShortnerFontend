@@ -4,6 +4,8 @@ import { IoCopy } from "react-icons/io5";
 import { FaExternalLinkSquareAlt } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import apiRequest from "./Axios/axiosHandler";
+import { Toaster } from "sonner";
+import { errorToast, successToast } from "./Utility/sooner";
 
 
 
@@ -17,11 +19,16 @@ function App() {
 
 
   const generateUrl=async()=>{
-    const url=`${import.meta.env.VITE_BACKEND_URL}url-shortner`
-    const response = await apiRequest(url,"post",urlData);
-    console.log(response)
-    setResponse((prev)=>[...prev,response.data])
-    setUrlData('');
+    const url=`${import.meta.env.VITE_BACKEND_URL}`
+    try{
+      const response = await apiRequest(url,"post",urlData);
+      successToast("Url generated successfully.")
+      console.log(response)
+      // setResponse((prev)=>[...prev,response.data])
+      setUrlData('');
+    }catch(error){
+      errorToast(error.message);
+    }
     
   }
 
@@ -39,6 +46,7 @@ function App() {
 
   return (
     <div className="bg-slate-900 h-screen w-full">
+    <Toaster theme="light" richColors={true} expand={true} position="top-left" closeButton={true}  />
       <div className="heading w-full h-44  flex items-center justify-center text-white text-[5rem]">
         <h1>URL Shortner</h1>
       </div>
