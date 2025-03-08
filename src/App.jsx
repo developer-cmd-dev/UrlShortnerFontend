@@ -14,11 +14,6 @@ function App() {
   const [response,setResponse]=useState([]);
 
 
-  const getUrl=async ()=>{
-          const url=`${import.meta.env.VITE_BACKEND_URL}url-shortner/get-all`
-          const response = await apiRequest(url,"get",null);
-          // setResponse((prev)=>[...prev,response.data])
-  }
 
 
   const generateUrl=async()=>{
@@ -30,10 +25,13 @@ function App() {
     
   }
 
-  const redirectUrl=async (hashValue)=>{
-    const url=`${import.meta.env.VITE_BACKEND_URL}url-shortner/${hashValue}`
-    const response = await apiRequest(url,"get",urlData);
-    window.open(response.data,"_blank")
+  const redirectUrl= (url)=>{
+    const urlData = JSON.parse(url);
+    try {
+      window.open(urlData)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
 
@@ -68,7 +66,7 @@ function App() {
           <h1 className=" w-[80%]">{value.hashedUrl}</h1>
           <Button type="click" title="copy"><IoCopy />
           </Button>
-          <Button title="Redirect"  type="click" onClick={()=>redirectUrl(value.hashcode)}><FaExternalLinkSquareAlt />
+          <Button title="Redirect"  type="click" onClick={()=>redirectUrl(value.originalUrl)}><FaExternalLinkSquareAlt />
           </Button>
 
         </div>

@@ -7,7 +7,9 @@ import axios from "axios";
         const response = await axios({url,method,data,withCredentials:false,headers:{"Content-Type":"application/json"}});
         return response;
     } catch (error) {
+        console.log(error)
         if(error.code === "ERR_NETWORK" || error.message === 'Network Error'){
+            
             throw new Error('Server is unreachable. Please try again later.')
         }else if(error.response){
             throw{
