@@ -23,8 +23,7 @@ function App() {
     try{
       const response = await apiRequest(url,"post",urlData);
       successToast("Url generated successfully.")
-      console.log(response)
-      // setResponse((prev)=>[...prev,response.data])
+      setResponse((prev)=>[...prev,response.data])
       setUrlData('');
     }catch(error){
       errorToast(error.message);
@@ -33,12 +32,16 @@ function App() {
   }
 
   const redirectUrl= (url)=>{
-    const urlData = JSON.parse(url);
     try {
-      window.open(urlData)
+      window.open(`https://${url}`)
     } catch (error) {
-      console.log(error)
+      errorToast(error.message);
     }
+  }
+
+  const copyToClipboard=(url)=>{
+    window.navigator.clipboard.writeText(url);
+    successToast("Copied to clipboard.")
   }
 
 
@@ -71,10 +74,13 @@ function App() {
       {
         response.map((value,index)=>(
           <div key={index} className="w-[80%] m-2 bg-slate-800 h-20 rounded-2xl text-white text-xl flex items-center justify-around p-3 ">
-          <h1 className=" w-[80%]">{value.hashedUrl}</h1>
-          <Button type="click" title="copy"><IoCopy />
+          <div className=" w-[80%] h-full">
+          <h1 className=" ">https://{value.shortUrl}</h1>
+          <p className="text-gray-500 text-sm">{value.destination}</p>
+          </div>
+          <Button type="click" title="copy" onClick={()=>copyToClipboard(value.shortUrl)}><IoCopy />
           </Button>
-          <Button title="Redirect"  type="click" onClick={()=>redirectUrl(value.originalUrl)}><FaExternalLinkSquareAlt />
+          <Button title="Redirect"  type="click" onClick={()=>redirectUrl(value.shortUrl)}><FaExternalLinkSquareAlt />
           </Button>
 
         </div>
